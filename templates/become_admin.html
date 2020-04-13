@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin or Kid</title>
+</head>
+<body>
+    <h3>Hi {{ session['name'] }}!</h3>
+    <a href ="/on_logout">|logout|</a>
+    <a href ="/home">home</a>
+    <hr>
+    {% for user in users %}
+    <h1>I'm a Kid!</h1>
+    <form action="/kid_click/{{user['id']}}" method="POST">
+        <p>Age <input type ="number" name="age"></p>
+        <input type="submit" value="Kid Click">
+    </form>
+    <hr>
+    {% with messages = get_flashed_messages() %}     
+        {% if messages %}                            
+            {% for message in messages %}            
+                <p>{{message}}</p>                   
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <hr>
+    <h2>I'm a Grown Up</h2>
+    <form action="/admin_click/{{user['id']}}" method="POST">
+        <p>Age <input type ="number" name="age"></p>
+        <input type="submit" value="Become an Admin">
+    </form>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello {{ session['name'] }}!</h1>
+    <h2>Home is where the heart is</h2>
+    ||<a href ="/on_logout"> Logout </a>||
+    ||<a href ="/become_admin"> Admins </a>||
+    ||<a href ="/join_home"> Join Home </a>||
+    ||<a href ="/create_home"> Create Home </a>||
+    {% for home in homes %}
+    <h3>The {{home['home_name']}} Home</h3>
+    {%endfor%}
+</body>
+</html>

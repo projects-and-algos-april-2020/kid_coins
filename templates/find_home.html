@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello {{ session['name'] }}!</h1>
+    <a href ="/on_logout">|logout|</a>
+    <a href ="/home">home</a>
+    <hr>
+    <h3>LIST OF HOMES</h3>
+    {% for home in homes %}
+        {% for user in users_nothome %}
+        <p>{{home['first_name']}} {{home['last_name']}} created: The <a href="/found_home/{{home['id']}}">{{home['home_name']}} Home</a></p>
+        {%endfor%}
+    {% endfor %}
+
+</body>
+</html>

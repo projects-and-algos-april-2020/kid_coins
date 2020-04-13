@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Home Sweet Home</h1>
+    <a href ="/on_logout">|logout|</a>
+    <a href ="/home">return</a>
+    <a href ="/join_home">join home</a>
+    {% with messages = get_flashed_messages() %}     
+        {% if messages %}                            
+            {% for message in messages %}            
+                <p>{{message}}</p>                   
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% for admin in admins %}
+    <h2>Create Home</h2>
+    <form action="/on_create_home" method="POST">
+        <p>Home Name: <input type ="text" name="hn"></p>
+        <p>Password: <input type ="password" name="pw"></p>
+        <p>Confirm Password: <input type ="password" name="cpw"></p>
+        <input type="submit" value="Create Home">
+    </form>
+    {% endfor %}
+</body>
+</html>

@@ -6,26 +6,31 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello {{ session['name'] }}!</h1>
-    <h2>Home is where the heart is</h2>
+    <h2>Hello {{ session['name'] }}!</h2>
+    {% for kid in kids %}
+    <h3>My Savings</h3>
+    <h4>{{kid['kid_coins']}} Kid Coins</h4>
+    {% endfor %}
+    <hr>
+    {% for user in users %}
+        <h4>Home is Where The Heart is</h4>
+        <h1>ENTER : <a href ="/user_home/{{user['home_id']}}">The {{user['home_name']}} Home</a></h1>
+    {% endfor %}
+    <hr>
+    {% for home in homes %}
+    <hr>
+        <h2>Work Hard Play Hard</h2>
+        <form action="/on_create_work/{{home['id']}}" method="POST">
+            <p>Description: <input type ="text" name="des"></p>
+            <p>Value: <input type ="number" name="val"></p>
+            <input type="submit" value="Build Work-Ethic">
+        </form> 
+    <hr>
+    <hr>
+    {% endfor %}
     ||<a href ="/on_logout"> Logout </a>||
     ||<a href ="/become_admin"> Admins </a>||
     ||<a href ="/join_home"> Join Home </a>||
     ||<a href ="/create_home"> Create Home </a>||
-    <hr>
-    {% for user in users %}
-        <h3><a href ="/user_home/{{user['home_id']}}">The {{user['home_name']}} Home</a></h3>
-    {% endfor %}
-    <hr>
-    {% for home in homes %}
-        {% for admin in homes %}
-            <h2>Create Work</h2>
-            <form action="/on_create_work/{{home['id']}}" method="POST">
-                <p>Work Description: <input type ="text" name="des"></p>
-                <p>Value: <input type ="number" name="val"></p>
-                <input type="submit" value="Build Work-Ethic">
-            </form>
-        {% endfor %}
-    {% endfor %}
 </body>
 </html>

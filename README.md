@@ -7,12 +7,13 @@
     * admin creates a home/household where their family are the only members
     * each home has a home name and password attached
     * kids and other admins can join created home using home name and password given
+
     * admins can post jobs on their specific home page 
     * jobs will include a value 
     * kid will be able to see jobs in their specific home
-    -kid completes job then awaits admins approval
-    -once approved by admin the amount/value of job is transferred into that kids wallet/account
-    -place where admins and kids can see all jobs that were complated and approved
+    *kid completes job then awaits admins approval
+    *once approved by admin the amount/value of job is transferred into that kids wallet/account
+    -place where admins and kids can see all jobs that were completed and approved
     -section where kid can spend the coins through a menu type list with costs
 
     ####problems
@@ -24,5 +25,8 @@
     -not all admins can approve completed jobs only creators
 
 
+query = "select first_name, last_name, sum(value) as kid_coins from jobs join users on completed_by = users.id WHERE completed = true AND approved = true GROUP BY completed_by"
 
+
+query = "SELECT * FROM family join users on user_id = users.id where home_id = 14"
      

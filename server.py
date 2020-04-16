@@ -290,7 +290,12 @@ def user_home(home_id):
     mysql = connectToMySQL(schema)
     homes = mysql.query_db(query, data)
 
-    return render_template('user_home.html', jobs = jobs, users = users, completed = completed, homes = homes)
+    query = "select first_name, last_name, sum(value) as kid_coins from jobs join users on completed_by = users.id WHERE home_id = %(hid)s AND completed = true AND approved = true GROUP BY completed_by"
+    data = {'hid':home_id}
+    mysql = connectToMySQL(schema)
+    kids = mysql.query_db(query, data)
+
+    return render_template('user_home.html', jobs = jobs, users = users, completed = completed, homes = homes, kids = kids)
 
 @app.route('/on_completed_work/<job_id>')
 def kid_completed_work(job_id):
@@ -308,6 +313,12 @@ def kid_completed_work(job_id):
 def admin_approved_work(job_id):
     print(job_id)
     print(session['user_id'])
+    query = " UPDATE jobs SET approved = true, updated_at = NOW() where id = %(jid)s"
+    data ={
+        'jid':job_id
+        }
+    mysql = connectToMySQL(schema)
+    mysql.query_db(query, data)
     return redirect('/home')
 
 @app.route('/home')
@@ -338,8 +349,14 @@ def home():
     # }
     # mysql = connectToMySQL(schema)
     # jobs = mysql.query_db(query, data)
+    query = "select first_name, last_name, sum(value) as kid_coins from jobs join users on completed_by = users.id WHERE users.id = %(sid)s AND completed = true AND approved = true GROUP BY completed_by"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    kids = mysql.query_db(query,data)
 
-    return render_template("home.html", homes = homes, users = users)
+    return render_template("home.html", homes = homes, users = users, kids = kids)
 
 
 if __name__ == "__main__":

@@ -13,12 +13,15 @@
     {% for user in users %}
     <h3>The {{user['home_name']}} Home</h3>
     {% endfor %}
+    {% for kid in kids %}
+    <p>{{kid['first_name']}} has {{kid['kid_coins']}} kid coins</p>
+    {% endfor %}
     <hr>
-    <h3>Available Jobs</h3>
+    <h3>Opportunities</h3>
     <table>
         <thead>
             <tr>
-                <th>Task</th>
+                <th> Description </th>
                 <th> Value </th>
                 <th> Action </th>
             </tr>
@@ -38,7 +41,7 @@
     <table>
         <thead>
             <tr>
-                <th>Task</th>
+                <th> Description </th>
                 <th> Value </th>
                 <th> Action </th>
             </tr>

@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`users` (
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 26
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -48,18 +48,18 @@ DROP TABLE IF EXISTS `kid_coins`.`homes` ;
 
 CREATE TABLE IF NOT EXISTS `kid_coins`.`homes` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
+  `creator_id` INT NOT NULL,
   `home_name` VARCHAR(255) NULL DEFAULT NULL,
   `home_pw` VARCHAR(255) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_homes_users1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_homes_users1_idx` (`creator_id` ASC) VISIBLE,
   CONSTRAINT `fk_homes_users1`
-    FOREIGN KEY (`user_id`)
+    FOREIGN KEY (`creator_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`family` (
     FOREIGN KEY (`user_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -98,6 +99,9 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`jobs` (
   `home_id` INT NOT NULL,
   `description` VARCHAR(255) NULL DEFAULT NULL,
   `value` INT NULL DEFAULT NULL,
+  `completed` TINYINT(1) NULL DEFAULT NULL,
+  `completed_by` INT NULL,
+  `approved` TINYINT(1) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -110,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`jobs` (
     FOREIGN KEY (`user_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8;
 
 

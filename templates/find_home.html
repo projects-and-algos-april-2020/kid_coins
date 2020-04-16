@@ -10,12 +10,10 @@
     <a href ="/on_logout">|logout|</a>
     <a href ="/home">home</a>
     <hr>
-    <h3>LIST OF HOMES</h3>
+    <h3>Find your home!</h3>
+    <h7>click on your home</h7>
     {% for home in homes %}
-        {% for user in users_nothome %}
-        <p>{{home['first_name']}} {{home['last_name']}} created: The <a href="/found_home/{{home['id']}}">{{home['home_name']}} Home</a></p>
-        {%endfor%}
+        <h4>{{home['first_name']}} {{home['last_name']}} created: The <a href="/found_home/{{home['id']}}">{{home['home_name']}} Home</a></h4>
     {% endfor %}
-
 </body>
 </html>

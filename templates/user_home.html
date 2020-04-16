@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello {{ session['name'] }}!</h1>
+    ||<a href ="/on_logout"> Logout </a>||
+    <a href ="/home">home</a> ||
+    <hr>
+    {% for user in users %}
+    <h3>The {{user['home_name']}} Home</h3>
+    {% endfor %}
+    <hr>
+    <h3>Available Jobs</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th> Value </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for job in jobs %}
+            <tr>
+                <td>{{job['description']}}</td>
+                <td>{{job['value']}}</td>
+                <td><a href="/on_completed_work/{{job['id']}}">Complete!</a></td>
+            {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h3>pending...</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th> Value </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for complete in completed %}
+            <tr>
+                <td>{{complete['description']}}</td>
+                <td>{{complete['value']}}</td>
+                {% for admin in homes %}
+                <td><a href="/on_approved_work/{{complete['id']}}">approved!</a></td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+
+        
+            
+</body>
+</html>

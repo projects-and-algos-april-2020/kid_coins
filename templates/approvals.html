@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    ||<a href ="/on_logout"> Logout </a>||
+    <a href ="/home">Account</a> ||
+    {% for link in links %}
+    <a href ="/user_home/{{link['home_id']}}">Home</a> ||
+    <a href ="/user_home_bonus/{{link['home_id']}}">Bonus</a> ||
+    <a href ="/user_home_fun/{{link['home_id']}}">Fun</a> ||
+    {% endfor %}
+    <h1>Hello {{ session['name'] }}!</h1>
+    <hr>
+    <hr>
+    <h3>Approvals</h3>
+    <ul>
+        {% for complete in completed %}
+        <li>{{complete['description']}} worth {{complete['value']}} Kid Coins approved {{complete['updated_at']}}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

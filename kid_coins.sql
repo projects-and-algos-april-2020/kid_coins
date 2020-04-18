@@ -31,13 +31,13 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`users` (
   `password` VARCHAR(255) NULL DEFAULT NULL,
   `age` INT NULL DEFAULT NULL,
   `admin` TINYINT(1) NULL DEFAULT NULL,
+  `kid` TINYINT(1) NULL DEFAULT NULL,
   `has_home` TINYINT(1) NULL DEFAULT NULL,
-  `kid_coins` INT NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 26
+AUTO_INCREMENT = 36
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`homes` (
     FOREIGN KEY (`creator_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
+AUTO_INCREMENT = 19
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`family` (
     FOREIGN KEY (`user_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 22
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -97,10 +97,13 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`jobs` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `home_id` INT NOT NULL,
+  `completed_by` INT NULL DEFAULT NULL,
   `description` VARCHAR(255) NULL DEFAULT NULL,
   `value` INT NULL DEFAULT NULL,
+  `goal` TINYINT(1) NULL DEFAULT NULL,
+  `task` TINYINT(1) NULL DEFAULT NULL,
+  `fun` TINYINT(1) NULL DEFAULT NULL,
   `completed` TINYINT(1) NULL DEFAULT NULL,
-  `completed_by` INT NULL,
   `approved` TINYINT(1) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
@@ -114,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`jobs` (
     FOREIGN KEY (`user_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 34
 DEFAULT CHARACTER SET = utf8;
 
 

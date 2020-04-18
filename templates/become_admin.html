@@ -6,10 +6,11 @@
     <title>Admin or Kid</title>
 </head>
 <body>
-    <h3>Hi {{ session['name'] }}!</h3>
-    <a href ="/on_logout">|logout|</a>
-    <a href ="/home">home</a>
+    ||<a href ="/on_logout"> Logout </a>||
+    ||<a href ="/home"> Home </a>||
+    ||<a href ="/create_home"> Create Home </a>||
     <hr>
+    <h3>Hello {{ session['name'] }}!</h3>
     {% for user in users %}
     <h1>I'm a Kid!</h1>
     <form action="/kid_click/{{user['id']}}" method="POST">

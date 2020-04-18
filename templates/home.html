@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
-    <h2>Hello {{ session['name'] }}!</h2>
+    ||<a href ="/on_logout"> Logout </a>||
+    {% for peep in peeps %}
+    <a href ="/become_admin"> Admins </a>||
+    {% endfor %}
+    {% for peep in peeps2 %}
+    <a href ="/join_home"> Join Home </a>||
+    {% endfor %}
+    {% for link in links %}
+    <a href ="/user_home/{{link['home_id']}}">Home</a> ||
+    <a href ="/user_home_bonus/{{link['home_id']}}">Bonus</a> ||
+    <a href ="/user_home_fun/{{link['home_id']}}">Fun</a> ||
+    <a href ="/approvals/{{link['home_id']}}">Approvals</a> ||
+    {% endfor %}
+    <h1>Hello {{ session['name'] }}!</h1>
     {% for kid in kids %}
-    <h3>My Savings</h3>
+        {% for link in links %}
+            <h3><a href ="/user_home_fun/{{link['home_id']}}">My Savings</a></h3>
+        {% endfor %}
     <h4>{{kid['kid_coins']}} Kid Coins</h4>
     {% endfor %}
     <hr>
     {% for user in users %}
-        <h4>Home is Where The Heart is</h4>
-        <h1>ENTER : <a href ="/user_home/{{user['home_id']}}">The {{user['home_name']}} Home</a></h1>
+    <h1><a href ="/user_home/{{user['home_id']}}">The {{user['home_name']}} Home</a></h1>
+    <hr>
+    <h1><a href ="/user_home_bonus/{{user['home_id']}}">Bonus Room</a></h1>
+    <hr>
+    <h1><a href ="/user_home_fun/{{user['home_id']}}">Play Room</a></h1>
+    <hr>
+    <h2><a href ="/approvals/{{user['home_id']}}">Pending</a></h2>
     {% endfor %}
-    <hr>
-    {% for home in homes %}
-    <hr>
-        <h2>Work Hard Play Hard</h2>
-        <form action="/on_create_work/{{home['id']}}" method="POST">
-            <p>Description: <input type ="text" name="des"></p>
-            <p>Value: <input type ="number" name="val"></p>
-            <input type="submit" value="Build Work-Ethic">
-        </form> 
-    <hr>
-    <hr>
-    {% endfor %}
-    ||<a href ="/on_logout"> Logout </a>||
-    ||<a href ="/become_admin"> Admins </a>||
-    ||<a href ="/join_home"> Join Home </a>||
-    ||<a href ="/create_home"> Create Home </a>||
-</body>
+    <ul>
+        {% for complete in completed %}
+        <li>{{complete['description']}} worth {{complete['value']}} Kid Coins</li>
+        {% endfor %}
+    </ul>
 </html>

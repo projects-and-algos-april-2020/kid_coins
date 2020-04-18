@@ -122,7 +122,7 @@ def admin_click(user_id):
         #is_valid = False
         #flash("Admins must be 24 years old or older")
     #if is_valid:
-    query = "UPDATE users SET admin = true,has_home = false, kid_coins = 0, age = %(age)s, updated_at = NOW() WHERE id = %(uid)s"
+    query = "UPDATE users SET admin = true, kid = false, has_home = false, age = %(age)s, updated_at = NOW() WHERE id = %(uid)s"
     data = {'age':request.form['age'],'uid':user_id}
     mysql = connectToMySQL(schema)
     mysql.query_db(query, data)
@@ -134,7 +134,7 @@ def kid_click(user_id):
     if "user_id" not in session:
         return redirect('/')
 
-    query = "UPDATE users SET admin = false, has_home=false, kid_coins=0, age = %(age)s, updated_at = NOW() WHERE id = %(uid)s"
+    query = "UPDATE users SET kid = true, admin = false, has_home=false, age = %(age)s, updated_at = NOW() WHERE id = %(uid)s"
     data = {'age':request.form['age'],'uid':user_id}
     mysql = connectToMySQL(schema)
     mysql.query_db(query, data)
@@ -238,64 +238,30 @@ def found_home(home_id):
 
 @app.route('/on_create_work/<home_id>', methods=['POST'])
 def created_work(home_id):
-    query = "INSERT INTO jobs(user_id, home_id, description, value, completed, approved, created_at, updated_at) VALUES(%(uid)s, %(hid)s, %(des)s, %(val)s, false, false, NOW(), NOW())"
-    data = {
-        'uid':session['user_id'],
-        'hid':home_id,
-        'des':request.form['des'],
-        'val':request.form['val']
-    }
-    mysql = connectToMySQL(schema)
-    mysql.query_db(query,data)
-    print(session['user_id'])
-    print(home_id)
-    
-    return redirect('/home')
-
-@app.route('/user_home/<home_id>')
-def user_home(home_id):
     if "user_id" not in session:
         return redirect('/')
 
-    query = "Select * FROM family JOIN homes ON home_id = homes.id WHERE user_id = %(sid)s"
-    data={
-        'sid':session['user_id']
-    }
-    mysql = connectToMySQL(schema)
-    users = mysql.query_db(query,data)
-
-    query = "SELECT * FROM jobs where home_id = %(hid)s AND completed = false"
-    data={
-        'hid':home_id
-    }
-    mysql = connectToMySQL(schema)
-    jobs = mysql.query_db(query, data)
-
-    query = "SELECT * FROM jobs where home_id = %(hid)s AND completed = true AND approved = false"
-    data={
-        'hid':home_id
-    }
-    mysql = connectToMySQL(schema)
-    completed = mysql.query_db(query, data)
-
-    # query = "SELECT * FROM users WHERE id = %(sid)s AND admin = true"
-    # data={
-    #     'id':session['user_id']
-    # }
-    # mysql = connectToMySQL(schema)
-    # admins = mysql.query_db(query, data)
-
-    query = "SELECT * FROM homes JOIN users ON creator_id = users.id JOIN family ON users.id = family.user_id WHERE users.id = %(sid)s"
-    data = {'sid':session['user_id']}
-    mysql = connectToMySQL(schema)
-    homes = mysql.query_db(query, data)
-
-    query = "select first_name, last_name, sum(value) as kid_coins from jobs join users on completed_by = users.id WHERE home_id = %(hid)s AND completed = true AND approved = true GROUP BY completed_by"
-    data = {'hid':home_id}
-    mysql = connectToMySQL(schema)
-    kids = mysql.query_db(query, data)
-
-    return render_template('user_home.html', jobs = jobs, users = users, completed = completed, homes = homes, kids = kids)
+    is_valid = True
+    if len(request.form['des']) < 3:
+        is_valid = False
+        flash("A task must consist of at least 3 characters!")
+    if len(request.form['val']) < 1:
+        is_valid = False
+        flash("A task must be worth at least 1 Kid Coin!")
+    if is_valid:
+        query = "INSERT INTO jobs(user_id, home_id, description, value, task, completed, approved, created_at, updated_at) VALUES(%(uid)s, %(hid)s, %(des)s, %(val)s, true, false, false, NOW(), NOW())"
+        data = {
+            'uid':session['user_id'],
+            'hid':home_id,
+            'des':request.form['des'],
+            'val':request.form['val']
+        }
+        mysql = connectToMySQL(schema)
+        mysql.query_db(query,data)
+        print(session['user_id'])
+        print(home_id)
+        return redirect('/home')
+    return redirect('/home')
 
 @app.route('/on_completed_work/<job_id>')
 def kid_completed_work(job_id):
@@ -321,8 +287,172 @@ def admin_approved_work(job_id):
     mysql.query_db(query, data)
     return redirect('/home')
 
+@app.route('/approvals/<home_id>')
+def all_approvals(home_id):
+    if "user_id" not in session:
+        return redirect('/')
+    query = "SELECT * FROM jobs where completed_by = %(sid)s AND completed = true AND approved = True order by updated_at desc "
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    completed = mysql.query_db(query, data)
+
+    query = "Select * FROM family JOIN homes ON home_id = homes.id WHERE user_id = %(sid)s"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    links = mysql.query_db(query,data)
+
+    return render_template('approvals.html', completed = completed, links = links)
+
+@app.route('/on_denied_work/<job_id>')
+def admin_denied_work(job_id):
+    print(job_id)
+    print(session['user_id'])
+    query = " UPDATE jobs SET completed = false, updated_at = NOW() where id = %(jid)s"
+    data ={
+        'jid':job_id
+        }
+    mysql = connectToMySQL(schema)
+    mysql.query_db(query, data)
+    return redirect('/home')
+
+@app.route('/on_deleted_work/<job_id>')
+def admin_deleted_work(job_id):
+    print(job_id)
+    print(session['user_id'])
+    query = " DELETE FROM jobs WHERE id = %(jid)s"
+    data ={
+        'jid':job_id
+        }
+    mysql = connectToMySQL(schema)
+    mysql.query_db(query, data)
+    return redirect('/home')
+
+@app.route('/on_goals/<home_id>', methods=['POST'])
+def on_goals(home_id):
+    if "user_id" not in session:
+        return redirect('/')
+
+    is_valid = True
+    if len(request.form['des']) < 3:
+        is_valid = False
+        flash("A Bonus must consist of at least 3 characters!")
+    if len(request.form['val']) < 1:
+        is_valid = False
+        flash("A Bonus must be worth at least 1 Kid Coin!")
+    if is_valid:
+        query = "INSERT INTO jobs(user_id, home_id, description, value, goal, completed, approved, created_at, updated_at) VALUES(%(uid)s, %(hid)s, %(des)s, %(val)s, true, false, false, NOW(), NOW())"
+        data = {
+            'uid':session['user_id'],
+            'hid':home_id,
+            'des':request.form['des'],
+            'val':request.form['val']
+        }
+        mysql = connectToMySQL(schema)
+        mysql.query_db(query,data)
+        print(session['user_id'])
+        print(home_id)
+        return redirect('/home')
+    return redirect('/home')
+
+@app.route('/on_fun/<home_id>', methods=['POST'])
+def on_fun(home_id):
+    if "user_id" not in session:
+        return redirect('/')
+        
+    is_valid = True
+    if len(request.form['des']) < 3:
+        is_valid = False
+        flash("Fun must consist of at least 3 characters!")
+    if len(request.form['val']) < 1:
+        is_valid = False
+        flash("Fun must cost at least 1 Kid Coin!")
+    if is_valid:
+        query = "INSERT INTO jobs(user_id, home_id, description, value, fun, completed, approved, created_at, updated_at) VALUES(%(uid)s, %(hid)s, %(des)s, %(val)s, true, false, false, NOW(), NOW())"
+        data = {
+            'uid':session['user_id'],
+            'hid':home_id,
+            'des':request.form['des'],
+            'val':request.form['val']
+        }
+        mysql = connectToMySQL(schema)
+        mysql.query_db(query,data)
+        print(session['user_id'])
+        print(home_id)
+        return redirect('/home')
+    return redirect('/home')
+
+@app.route('/user_home_bonus/<home_id>')
+def bonus_room(home_id):
+    if "user_id" not in session:
+        return redirect('/')
+    
+    query = "SELECT * FROM homes JOIN users ON creator_id = users.id JOIN family ON users.id = family.user_id WHERE users.id = %(sid)s"
+    data = {'sid':session['user_id']}
+    mysql = connectToMySQL(schema)
+    homes = mysql.query_db(query, data)
+
+    query = "SELECT * FROM jobs where home_id = %(hid)s AND completed = false AND goal = true order by updated_at desc"
+    data={
+        'hid':home_id
+    }
+    mysql = connectToMySQL(schema)
+    jobs = mysql.query_db(query, data)
+
+    query = "SELECT * FROM jobs where home_id = %(hid)s AND completed = true AND approved = false AND goal = true order by updated_at desc"
+    data={
+        'hid':home_id
+    }
+    mysql = connectToMySQL(schema)
+    completed = mysql.query_db(query, data)
+
+    query = "Select * FROM family JOIN homes ON home_id = homes.id WHERE user_id = %(sid)s"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    links = mysql.query_db(query,data)
+
+    return render_template('user_home_bonus.html', homes = homes, jobs = jobs, completed = completed, links = links)
+
+@app.route('/user_home_fun/<home_id>')
+def fun_room(home_id):
+    if "user_id" not in session:
+        return redirect('/')
+
+    query = "SELECT * FROM homes JOIN users ON creator_id = users.id JOIN family ON users.id = family.user_id WHERE users.id = %(sid)s"
+    data = {'sid':session['user_id']}
+    mysql = connectToMySQL(schema)
+    homes = mysql.query_db(query, data)
+
+    query = "SELECT * FROM jobs where home_id = %(hid)s AND completed = false AND fun = true order by updated_at desc"
+    data={
+        'hid':home_id
+    }
+    mysql = connectToMySQL(schema)
+    jobs = mysql.query_db(query, data)
+
+    query = "SELECT * FROM jobs where home_id = %(hid)s AND completed = true AND approved = false AND fun = true order by updated_at desc"
+    data={
+        'hid':home_id
+    }
+    mysql = connectToMySQL(schema)
+    completed = mysql.query_db(query, data)
+
+    query = "Select * FROM family JOIN homes ON home_id = homes.id WHERE user_id = %(sid)s"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    links = mysql.query_db(query,data)
+
+    return render_template('user_home_fun.html', homes = homes, jobs = jobs, completed = completed, links = links)
+
 @app.route('/home')
-def home():
+def home_account():
     if "user_id" not in session:
         return redirect('/')
 
@@ -343,6 +473,20 @@ def home():
     mysql = connectToMySQL(schema)
     users = mysql.query_db(query,data)
 
+    query = "Select * FROM users WHERE id = %(sid)s AND kid = false"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    peeps = mysql.query_db(query,data)
+
+    query = "Select * FROM users WHERE id = %(sid)s AND has_home = false"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    peeps2 = mysql.query_db(query,data)
+
     # query = "SELECT * FROM jobs where home_id = %(sid)s"
     # data={
     #     'sid':session['user_id']
@@ -356,8 +500,66 @@ def home():
     mysql = connectToMySQL(schema)
     kids = mysql.query_db(query,data)
 
-    return render_template("home.html", homes = homes, users = users, kids = kids)
+    query = "Select * FROM family JOIN homes ON home_id = homes.id WHERE user_id = %(sid)s"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    links = mysql.query_db(query,data)
 
+    query = "SELECT * FROM jobs where completed_by = %(sid)s AND completed = true AND approved = false order by updated_at desc "
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    completed = mysql.query_db(query, data)
+
+    return render_template("home.html", homes = homes, users = users, kids = kids, peeps = peeps, peeps2 = peeps2, links = links, completed = completed)
+
+@app.route('/user_home/<home_id>')
+def user_home(home_id):
+    if "user_id" not in session:
+        return redirect('/')
+
+    query = "Select * FROM family JOIN homes ON home_id = homes.id WHERE user_id = %(sid)s"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    users = mysql.query_db(query,data)
+
+    query = "SELECT * FROM jobs where home_id = %(hid)s AND completed = false AND task = true order by updated_at desc"
+    data={
+        'hid':home_id
+    }
+    mysql = connectToMySQL(schema)
+    jobs = mysql.query_db(query, data)
+
+    query = "SELECT * FROM jobs where home_id = %(hid)s AND completed = true AND approved = false AND task = true order by updated_at desc"
+    data={
+        'hid':home_id
+    }
+    mysql = connectToMySQL(schema)
+    completed = mysql.query_db(query, data)
+
+    query = "SELECT * FROM homes JOIN users ON creator_id = users.id JOIN family ON users.id = family.user_id WHERE users.id = %(sid)s"
+    data = {'sid':session['user_id']}
+    mysql = connectToMySQL(schema)
+    homes = mysql.query_db(query, data)
+
+    query = "select first_name, last_name, sum(value) as kid_coins from jobs join users on completed_by = users.id WHERE home_id = %(hid)s AND completed = true AND approved = true GROUP BY completed_by"
+    data = {'hid':home_id}
+    mysql = connectToMySQL(schema)
+    kids = mysql.query_db(query, data)
+
+    query = "Select * FROM family JOIN homes ON home_id = homes.id WHERE user_id = %(sid)s"
+    data={
+        'sid':session['user_id']
+    }
+    mysql = connectToMySQL(schema)
+    bonuses = mysql.query_db(query,data)
+
+    return render_template('user_home.html', jobs = jobs, users = users, completed = completed, homes = homes, kids = kids, bonuses = bonuses)
 
 if __name__ == "__main__":
     app.run(debug=True)

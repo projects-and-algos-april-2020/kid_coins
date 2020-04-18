@@ -2,63 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     ||<a href ="/on_logout"> Logout </a>||
     <a href ="/home">Account</a> ||
-    {% for bonus in bonuses %}
-    <a href ="/user_home_bonus/{{bonus['home_id']}}">Bonus</a> ||
-    <a href ="/user_home_fun/{{bonus['home_id']}}">Fun</a> ||
-    <a href ="/approvals/{{bonus['home_id']}}">Approvals</a> ||
+    {% for link in links %}
+    <a href ="/user_home/{{link['home_id']}}">Home</a> ||
+    <a href ="/user_home_fun/{{link['home_id']}}">Fun</a> ||
+    <a href ="/approvals/{{link['home_id']}}">Approvals</a> ||
     {% endfor %}
     <h1>Hello {{ session['name'] }}!</h1>
-    {% for user in users %}
     <hr>
-    <h2>The {{user['home_name']}} Home</h2>
-    {% endfor %}
-    {% for kid in kids %}
-    <p>{{kid['first_name']}} has {{kid['kid_coins']}} kid coins</p>
-    {% endfor %}
-    <h3>Home is Where the Heart is </h3>
     {% for home in homes %}
-    <hr>
-    <hr>
-    <form action="/on_create_work/{{home['id']}}" method="POST">
-        <p>Description: <input type ="text" name="des"></p>
-        <p>Value: <input type ="number" name="val"></p>
-        <input type="submit" value="Build Work-Ethic">
-    </form> 
-    {% with messages = get_flashed_messages() %}     
+    <h2>Create Goals</h2>
+        <form action="/on_goals/{{home['id']}}" method="POST">
+            <p>Description: <input type ="text" name="des"></p>
+            <p>Value: <input type ="number" name="val"></p>
+            <input type="submit" value="Set Goal">
+        </form> 
+        {% with messages = get_flashed_messages() %}     
         {% if messages %}                            
             {% for message in messages %}            
                 <p>{{message}}</p>                   
             {% endfor %}
         {% endif %}
     {% endwith %}
+    <hr>
     {% endfor %}
     <hr>
+    <h3>Fruits of Your Labor</h3>
     <table>
         <thead>
             <tr>
                 <th> </th>
                 <th> </th>
-                <th> </th>
+                <th>  </th>
                 <th> </th>
             </tr>
         </thead>
         <tbody>
         {% for job in jobs %}
-            <tr>
-                <td>{{job['description']}}</td>
-                <td>worth </td>
-                <td>{{job['value']}} Kid Coins</td>
-                <td><a href="/on_completed_work/{{job['id']}}">Done</a></td>
-                {% for admin in homes %}
-                <td><a href="/on_deleted_work/{{job['id']}}">Delete</a></td>
-                {% endfor %}
+        <tr>
+            <td>{{job['description']}}</td>
+            <td>worth </td>
+            <td> {{job['value']}} Kid Coins</td>
+            <td><a href="/on_completed_work/{{job['id']}}">Collect</a></td>
+            {% for admin in homes %}
+            <td><a href="/on_deleted_work/{{job['id']}}">Delete</a></td>
             {% endfor %}
+        {% endfor %}
             </tr>
         </tbody>
     </table>
@@ -77,14 +71,14 @@
             {% for complete in completed %}
             <tr>
                 <td>- {{complete['description']}}</td>
-                <td> worth</td>
-                <td>{{complete['value']}} Kid Coins</td>
+                <td>worth </td>
+                <td> {{complete['value']}} Kid Coins</td>
                 {% for admin in homes %}
                 <td><a href="/on_approved_work/{{complete['id']}}">Approve</a>--<a href="/on_denied_work/{{complete['id']}}">Deny</a></td>
                 {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
-    </table>    
+    </table>   
 </body>
 </html>

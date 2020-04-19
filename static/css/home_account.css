@@ -1,0 +1,80 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.wrapper{
+    
+    margin: 0 auto;
+    width: 570px;
+    min-height: 15px;
+    border-left: 2px solid rgb(39, 39, 39);
+    border-right: 2px solid rgb(39, 39, 39);
+    border-bottom: 2px solid rgb(39, 39, 39);
+    font-family: sans-serif;
+}
+
+.account_header{
+    outline: solid black 2px;
+    background-color: darkslategrey;
+    color: cornsilk;
+    text-align: center;
+    padding: 10px;
+    margin: 0 10px 10px 10px;
+}
+.account_header a{
+    color:  cornsilk;
+}
+.account_header h2{
+    padding: 5px;
+}
+
+.house{
+    text-align: center;
+    outline: solid black 2px;
+    padding: 10px;
+    min-width: 40px;
+    background-color: burlywood;
+    margin: 10px;
+}
+
+.rooms{
+    text-align: center;
+}
+.rooms li{
+    display: inline-block;
+    outline: solid black 2px;
+    padding: 10px;
+    margin: 3px;
+}
+
+
+.pending{
+    text-align: center;
+    margin: 20px 20px 0 20px;
+}
+.pending p{
+    margin: 5px;
+}
+.window_door img{
+    margin-left: auto;
+    margin-right: auto;
+    height:200px;
+}
+
+a{
+    color: black
+}
+
+.bottom_links{
+    background-color: #d8d8d8;
+    min-width: 60px;
+    min-height: 1px;
+}
+.bottom_links a{
+    color: hsl(0, 7%, 11%);
+    display: inline-block;
+    vertical-align: top;
+    min-width:20px;
+    font-weight: bold;
+    margin-left: 30px;
+}

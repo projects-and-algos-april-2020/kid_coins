@@ -291,7 +291,7 @@ def admin_approved_work(job_id):
 def all_approvals(home_id):
     if "user_id" not in session:
         return redirect('/')
-    query = "SELECT * FROM jobs where completed_by = %(sid)s AND completed = true AND approved = True order by updated_at desc "
+    query = "SELECT * FROM jobs where completed_by = %(sid)s AND completed = true AND approved = True order by updated_at desc LIMIT 10"
     data={
         'sid':session['user_id']
     }

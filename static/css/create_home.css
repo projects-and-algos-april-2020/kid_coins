@@ -1,0 +1,97 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.wrapper{
+    
+    margin: 0 auto;
+    width: 570px;
+    min-height: 15px;
+    border-left: 2px solid rgb(39, 39, 39);
+    border-right: 2px solid rgb(39, 39, 39);
+    border-bottom: 2px solid rgb(39, 39, 39);
+    font-family: sans-serif;
+}
+
+.roof{
+    outline: solid black 2px;
+    background-color: darkslategrey;
+    color: cornsilk;
+    text-align: center;
+    padding: 10px;
+    margin: 0 10px 10px 10px;
+}
+
+.roof a{
+    color:  cornsilk;
+}
+.roof h2{
+    padding: 5px;
+}
+
+.heading{
+    text-align: center;
+    outline: solid black 2px;
+    padding: 10px;
+    min-width: 40px;
+    background-color: burlywood;
+    margin: 10px;
+}
+
+.homes{
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+}
+.form li{
+    vertical-align: middle;
+    display:inline-block;
+    text-align: justify;
+    padding: 10px;
+    min-width: 40px;
+    margin: 10px;
+}
+.homes p{
+    margin: 5px;
+}
+.table{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.jobs{
+    text-align: center;
+
+    padding: 10px;
+    min-width: 40px;
+    margin: 10px;
+}
+.pending{
+    text-align: center;
+
+    padding: 1px;
+    min-width: 40px;
+    margin: 10px 10px 20px 10px;
+}
+
+.window_door img{
+    margin-left: auto;
+    margin-right: auto;
+    height:200px;
+}
+
+.bottom_links{
+    background-color: #d8d8d8;
+    min-width: 60px;
+    min-height: 1px;
+}
+.bottom_links a{
+    color: hsl(0, 7%, 11%);
+    display: inline-block;
+    vertical-align: top;
+    min-width:20px;
+    font-weight: bold;
+    margin-left: 100px;
+}

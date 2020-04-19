@@ -3,43 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Document</title>
+
+    <title>Home Account</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home_account.css') }}">
 </head>
 <body>
-    ||<a href ="/on_logout"> Logout </a>||
-    {% for peep in peeps %}
-    <a href ="/become_admin"> Admins </a>||
-    {% endfor %}
-    {% for peep in peeps2 %}
-    <a href ="/join_home"> Join Home </a>||
-    {% endfor %}
-    {% for link in links %}
-    <a href ="/user_home/{{link['home_id']}}">Home</a> ||
-    <a href ="/user_home_bonus/{{link['home_id']}}">Bonus</a> ||
-    <a href ="/user_home_fun/{{link['home_id']}}">Fun</a> ||
-    <a href ="/approvals/{{link['home_id']}}">Approvals</a> ||
-    {% endfor %}
-    <h1>Hello {{ session['name'] }}!</h1>
-    {% for kid in kids %}
-        {% for link in links %}
-            <h3><a href ="/user_home_fun/{{link['home_id']}}">My Savings</a></h3>
+    
+    <div class="wrapper">
+       
+        <div class="account_header">
+            <h1>Hello {{ session['name'] }}!</h1>
+            {% for kid in kids %}
+                {% for link in links %}
+                <h3><a href ="/user_home_fun/{{link['home_id']}}">My Savings</a></h3>
+            {% endfor %}
+            <h2>{{kid['kid_coins']}} Kid Coins</h2>
+            {% endfor %}
+        </div>
+        <div class="house">
+        
+        {% for user in users %}
+            <h1><a href ="/user_home/{{user['home_id']}}">The {{user['home_name']}} Home</a></h1>
+        </div>
+        <div class="rooms">
+        <ul>    
+            <li><h2><a href ="/user_home_bonus/{{user['home_id']}}">Bonus Room</a></h2></li>
+            
+            <li><h2><a href ="/user_home_fun/{{user['home_id']}}">Play Room</a></h2></li>
+            </ul>
+        </div>
+        <div class="pending">
+        <h3><a href ="/approvals/{{user['home_id']}}">Pending</a></h3>
         {% endfor %}
-    <h4>{{kid['kid_coins']}} Kid Coins</h4>
-    {% endfor %}
-    <hr>
-    {% for user in users %}
-    <h1><a href ="/user_home/{{user['home_id']}}">The {{user['home_name']}} Home</a></h1>
-    <hr>
-    <h1><a href ="/user_home_bonus/{{user['home_id']}}">Bonus Room</a></h1>
-    <hr>
-    <h1><a href ="/user_home_fun/{{user['home_id']}}">Play Room</a></h1>
-    <hr>
-    <h2><a href ="/approvals/{{user['home_id']}}">Pending</a></h2>
-    {% endfor %}
-    <ul>
-        {% for complete in completed %}
-        <li>{{complete['description']}} worth {{complete['value']}} Kid Coins</li>
-        {% endfor %}
-    </ul>
+            {% for complete in completed %}
+            <p>{{complete['description']}} worth {{complete['value']}} Kid Coins</p>
+            {% endfor %}
+            
+        </div>
+        <div class="window_door">
+            <img src="{{ url_for('static', filename='img/window.jpeg') }}">
+            <img src="{{ url_for('static', filename='img/red_door.jpeg') }}">
+            <img src="{{ url_for('static', filename='img/window.jpeg') }}">
+        </div>
+
+
+        <div class="bottom_links">
+            <a href ="/on_logout"> Logout </a>
+            {% for peep in peeps %}
+            <a href ="/become_admin"> Admins </a>
+            {% endfor %}
+            {% for peep in peeps2 %}
+            <a href ="/join_home"> Join Home </a>
+            {% endfor %}
+            {% for link in links %}
+            <a href ="/user_home/{{link['home_id']}}">Home</a>
+            <a href ="/user_home_bonus/{{link['home_id']}}">Bonus</a>
+            <a href ="/user_home_fun/{{link['home_id']}}">Fun</a>
+            <a href ="/approvals/{{link['home_id']}}">Approvals</a>
+            {% endfor %}
+        </div>
+    </div>
+</body>
 </html>

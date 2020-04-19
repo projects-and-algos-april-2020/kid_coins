@@ -4,23 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/approvals.css') }}">
 </head>
 <body>
-    ||<a href ="/on_logout"> Logout </a>||
-    <a href ="/home">Account</a> ||
-    {% for link in links %}
-    <a href ="/user_home/{{link['home_id']}}">Home</a> ||
-    <a href ="/user_home_bonus/{{link['home_id']}}">Bonus</a> ||
-    <a href ="/user_home_fun/{{link['home_id']}}">Fun</a> ||
-    {% endfor %}
-    <h1>Hello {{ session['name'] }}!</h1>
-    <hr>
-    <hr>
-    <h3>Approvals</h3>
-    <ul>
-        {% for complete in completed %}
-        <li>{{complete['description']}} worth {{complete['value']}} Kid Coins approved {{complete['updated_at']}}</li>
-        {% endfor %}
-    </ul>
+    <div class="wrapper">
+        <div class="roof">
+            <h1>Hello {{ session['name'] }}!</h1>
+        </div>
+        <div class="heading">
+            <h3>Approvals</h3>
+        </div>
+        <div class="form">
+                {% for complete in completed %}
+                <p>{{complete['description']}} worth {{complete['value']}} Kid Coins</p>
+                {% endfor %}
+        </div>
+        <div class="window_door">
+            <img src="{{ url_for('static', filename='img/window.jpeg') }}">
+            <img src="{{ url_for('static', filename='img/red_door.jpeg') }}">
+            <img src="{{ url_for('static', filename='img/window.jpeg') }}">
+        </div>
+        <div class="bottom_links">
+            <a href ="/on_logout"> Logout </a>
+            <a href ="/home">Account</a>
+            {% for link in links %}
+            <a href ="/user_home/{{link['home_id']}}">Home</a>
+            <a href ="/user_home_bonus/{{link['home_id']}}">Bonus</a>
+            <a href ="/user_home_fun/{{link['home_id']}}">Fun</a>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

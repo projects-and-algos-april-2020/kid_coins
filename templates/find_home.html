@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/find_home.css') }}">
 </head>
 <body>
-    <a href ="/on_logout">|logout|</a>
-    <a href ="/home">home</a>
-    <h1>Hello {{ session['name'] }}!</h1>
-    <hr>
-    <h3>Find your home!</h3>
-    {% for home in homes %}
-        <h4>{{home['first_name']}} {{home['last_name']}} created: The <a href="/found_home/{{home['id']}}">{{home['home_name']}} Home</a></h4>
-    {% endfor %}
+    <div class = "wrapper">
+        <div class="roof">
+            <h1>Hello {{ session['name'] }}!</h1>
+        </div>
+        <div class="heading">
+            <h2>There's No Place Like Home</h2>
+        </div>
+        <div class="homes">
+            {% for home in homes %}
+                <h4>{{home['first_name']}} {{home['last_name']}} created: The <a href="/found_home/{{home['id']}}">{{home['home_name']}} Home</a></h4>
+            {% endfor %}
+        </div>
+        <div class="window_door">
+            <img src="{{ url_for('static', filename='img/window.jpeg') }}">
+            <img src="{{ url_for('static', filename='img/red_door.jpeg') }}">
+            <img src="{{ url_for('static', filename='img/window.jpeg') }}">
+        </div>
+        <div class="bottom_links">
+            <a href ="/on_logout">|logout|</a>
+            <a href ="/home">home</a>
+        </div>
+    </div>
 </body>
 </html>

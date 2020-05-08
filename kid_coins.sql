@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`users` (
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 36
+AUTO_INCREMENT = 44
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`homes` (
     FOREIGN KEY (`creator_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 19
+AUTO_INCREMENT = 23
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`family` (
     FOREIGN KEY (`user_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 22
+AUTO_INCREMENT = 32
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `kid_coins`.`jobs` (
     FOREIGN KEY (`user_id`)
     REFERENCES `kid_coins`.`users` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 34
+AUTO_INCREMENT = 87
 DEFAULT CHARACTER SET = utf8;
 
 

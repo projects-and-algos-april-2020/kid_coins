@@ -260,7 +260,7 @@ def created_work(home_id):
         mysql.query_db(query,data)
         print(session['user_id'])
         print(home_id)
-        return redirect('/home')
+        return redirect(f'/user_home/{home_id}')
     return redirect('/home')
 
 @app.route('/on_completed_work/<job_id>')

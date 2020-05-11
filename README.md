@@ -1,5 +1,7 @@
 # Project: Kid Coins
-## descritpion: app where kids within a household earn "kid coins" from their parents by doing chores, homework, and extra work. Kid can then exchange coins for pre determined cash amount or free play time or tv time.
+## description: App where kids within their private households earn "Kid Coins" from their parents by doing chores and homework, as well as getting good grades and good behavior. Kids can then exchange "Kid Coins" for fun which can include playing video games, online internet access, watching tv. playing outside. "Kid Coins" can also be exchanged for money.
+
+## Purpose of this app is to teach kids good work ethic
 
 ### backlog
     * everybody logs in as a user

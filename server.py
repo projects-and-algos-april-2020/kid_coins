@@ -355,7 +355,7 @@ def on_goals(home_id):
         mysql.query_db(query,data)
         print(session['user_id'])
         print(home_id)
-        return redirect('/home')
+        return redirect(f'/user_home_bonus/{home_id}')
     return redirect('/home')
 
 @app.route('/on_fun/<home_id>', methods=['POST'])
@@ -364,9 +364,9 @@ def on_fun(home_id):
         return redirect('/')
         
     is_valid = True
-    if len(request.form['des']) < 3:
+    if len(request.form['des']) < 2:
         is_valid = False
-        flash("Fun must consist of at least 3 characters!")
+        flash("Fun must consist of at least 2 characters!")
     if len(request.form['val']) < 1:
         is_valid = False
         flash("Fun must cost at least 1 Kid Coin!")
@@ -382,7 +382,7 @@ def on_fun(home_id):
         mysql.query_db(query,data)
         print(session['user_id'])
         print(home_id)
-        return redirect('/home')
+        return redirect(f'/user_home_fun/{home_id}')
     return redirect('/home')
 
 @app.route('/user_home_bonus/<home_id>')

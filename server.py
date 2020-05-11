@@ -15,6 +15,10 @@ schema = "kid_coins"
 def log_reg_landing():
     return render_template("login_reg.html")
 
+@app.route('/register')
+def register():
+    return render_template("reg.html")
+
 @app.route('/on_register', methods=['POST'])
 def on_register():
     is_valid = True
@@ -66,7 +70,7 @@ def on_register():
             session['name'] = request.form['fn']
             return redirect ('/become_admin')
 
-    return redirect('/')
+    return redirect('/register')
 
 @app.route("/on_login", methods=["POST"])
 def on_login():

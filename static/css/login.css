@@ -52,6 +52,12 @@
 .form p{
     margin: 5px;
 }
+.form a{
+    outline: solid rgb(180, 177, 177) 1px;
+    font-size: 11px;
+    color: grey;
+}
+
 .table{
     text-align: center;
     display: block;

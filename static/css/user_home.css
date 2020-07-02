@@ -10,10 +10,11 @@
     border-left: 2px solid rgb(39, 39, 39);
     border-right: 2px solid rgb(39, 39, 39);
     border-bottom: 2px solid rgb(39, 39, 39);
-    font-family: sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .roof{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     outline: solid black 2px;
     background-color: blue;
     color: cornsilk;

@@ -15,8 +15,9 @@
 
 .roof{
     outline: solid black 2px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     background-color: greenyellow;
-    color: cornsilk;
+    color:darkblue;
     text-align: center;
     padding: 10px;
     margin: 0 10px 10px 10px;
